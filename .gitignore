@@ -1,7 +1,9 @@
+*~
+.*~ 
+*.gz
 *.pyc
 *.pyo
-.*~ 
-*~
+*.sh
 .DS_Store
 FiPy.egg-info
 dist/

@@ -54,9 +54,9 @@ before_install:
   # conda-forge channel when on linux
   - if [[ $TRAVIS_OS_NAME -eq "linux" ]]; then
       if [[ $PY3K -eq 1 ]]; then
-        conda create --quiet --name test-environment --show-channel-urls --channel guyer --channel conda-forge python=$TRAVIS_PYTHON_VERSION numpy scipy gmsh matplotlib;
+        conda create --quiet --name test-environment --show-channel-urls --channel guyer --channel conda-forge python=$TRAVIS_PYTHON_VERSION gmsh matplotlib numpy scipy;
       else
-        conda create --quiet --name test-environment --show-channel-urls --channel guyer --channel conda-forge python=$TRAVIS_PYTHON_VERSION numpy scipy gmsh pysparse mpi4py matplotlib mayavi fipytrilinos;
+        conda create --quiet --name test-environment --show-channel-urls --channel guyer --channel conda-forge python=$TRAVIS_PYTHON_VERSION fipytrilinos gmsh matplotlib mayavi mpi4py numpy pysparse scipy sphinx=1.5;
       fi
     elif [[ $TRAVIS_OS_NAME -eq "osx" ]]; then
       conda create --quiet --name test-environment --show-channel-urls --channel guyer --channel conda-forge python=$TRAVIS_PYTHON_VERSION fipy;
@@ -81,6 +81,4 @@ before_script:
       sleep 3;
     fi
 script:
- $MPIRUN python setup.py test ;
- # ls -l /usr/lib/liblapack*;
- # dpkg -l "liblapack*";
+ $MPIRUN python setup.py test && if [[ $TRAVIS_OS_NAME -eq "linux" && $MPIRUN -eq "" ]]; then python setup.py build_docs --html; fi
